@@ -1,8 +1,43 @@
 -- Pablo Lib
 -- by noremius
 
+
+-- TODO: add a title function for the tabs, change the toggle color change
+
+--[[
+EXAMPLE USAGE:
+
+local win = library:Create("NAME")
+
+local tab1 = win:CreateTab("tab")
+
+tab1:CreateButton("button", function()
+	print("Hello World!")
+end)
+
+tab1:CreateToggle("Change walkspeed", function(state)
+	if state then
+		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 100
+	else
+		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+	end
+end)
+
+--]]
+
+--[[
+UPDATE LOGS:
+
+The library now is loading and it gives no errors
+fixed the toggle
+--]]
+
+
+-- for the lib
 local library = {}
 
+
+--Create the main
 function library:Create(text)
 	local PabloLib = Instance.new("ScreenGui")
 	PabloLib.Name = "Pablo Lib"
@@ -193,6 +228,8 @@ function library:Create(text)
 		end
 		
 		function someSets:CreateToggle(text, callback)
+			text = text or "Toggle"
+			callback = callback or function() end
 			local toggle = false
 			local Toggle = Instance.new("TextButton")
 			Toggle.Name = "Toggle"
@@ -212,8 +249,8 @@ function library:Create(text)
 			
 			
 			Toggle.MouseButton1Click:Connect(function()
-				callback()
 				toggle = not toggle
+				callback(toggle)
 				if toggle then
 					Toggle.BackgroundColor3 = Color3.fromRGB(15, 184, 26)
 				else
@@ -226,5 +263,4 @@ function library:Create(text)
 	return InsideLib
 end
 
-
--- toggle doesnt works
+return library
