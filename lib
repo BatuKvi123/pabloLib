@@ -2,48 +2,33 @@
 -- by noremius
 
 
--- TODO: add a title function for the tabs, change the toggle color change
-
---[[
-EXAMPLE USAGE:
-
-local win = library:Create("NAME")
-
-local tab1 = win:CreateTab("tab")
-
-tab1:CreateButton("button", function()
-	print("Hello World!")
-end)
-
-tab1:CreateToggle("Change walkspeed", function(state)
-	if state then
-		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 100
-	else
-		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
-	end
-end)
-
---]]
+-- TODO: add a title function for the tabs, 
 
 --[[
 UPDATE LOGS:
-
+V0.0.1
 The library now is loading and it gives no errors
 fixed the toggle
+
+V0.0.2
+added slider
+fixed the scroll that doesnt scrolls if the tab has to much buttons
 --]]
 
 
 -- for the lib
 local library = {}
 
+local PabloLib = Instance.new("ScreenGui")
+PabloLib.Name = "Pablo Lib"
+PabloLib.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+PabloLib.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+PabloLib.ResetOnSpawn = false
+
 
 --Create the main
 function library:Create(text)
-	local PabloLib = Instance.new("ScreenGui")
-	PabloLib.Name = "Pablo Lib"
-	PabloLib.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-	PabloLib.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-	PabloLib.ResetOnSpawn = false
+	
 	
 	local Main = Instance.new("Frame")
 	Main.Name = "Main"
@@ -185,6 +170,7 @@ function library:Create(text)
 		scroll.Size = UDim2.new(0, 246, 0, 187)
 		scroll.CanvasSize = UDim2.new(0, 0, 0, 0)
 		scroll.ScrollBarThickness = 2
+		scroll["AutomaticCanvasSize"] = Enum.AutomaticSize.Y
 		
 		local UIPadding_2 = Instance.new("UIPadding")
 		UIPadding_2.Parent = scroll
@@ -256,6 +242,127 @@ function library:Create(text)
 				else
 					Toggle.BackgroundColor3 = Color3.fromRGB(172, 0, 0)
 				end
+			end)
+		end
+		
+		function someSets:CreateSlider(text, minvalue, maxvalue, callback)
+			text = text or "Ding Dong"
+			minvalue = minvalue or 0
+			maxvalue = maxvalue or 100
+
+			local mouse = game.Players.LocalPlayer:GetMouse()
+			local uis = game:GetService("UserInputService")
+			local Value;
+
+			local Slider = Instance.new("Frame")
+			local UICorner = Instance.new("UICorner")
+			local SliderFrame = Instance.new("Frame")
+			local UICorner_2 = Instance.new("UICorner")
+			local SliderButton = Instance.new("TextButton")
+			local SliderInner = Instance.new("Frame")
+			local UICorner_3 = Instance.new("UICorner")
+			local TextLabel = Instance.new("TextLabel")
+			local title = Instance.new("TextLabel")
+
+			--Properties:
+
+			Slider.Name = "Slider"
+			Slider.Parent = scroll
+			Slider.BackgroundColor3 = Color3.fromRGB(49, 49, 49)
+			Slider.BorderColor3 = Color3.fromRGB(0, 0, 0)
+			Slider.BorderSizePixel = 0
+			Slider.Position = UDim2.new(0, 0, 0.626373649, 0)
+			Slider.Size = UDim2.new(0, 229, 0, 44)
+
+			UICorner.Parent = Slider
+
+			SliderFrame.Name = "SliderFrame"
+			SliderFrame.Parent = Slider
+			SliderFrame.BackgroundColor3 = Color3.fromRGB(62, 62, 62)
+			SliderFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+			SliderFrame.BorderSizePixel = 0
+			SliderFrame.Position = UDim2.new(0.611353695, 0, 0.25, 0)
+			SliderFrame.Size = UDim2.new(0, 79, 0, 22)
+
+			UICorner_2.Parent = SliderFrame
+
+			SliderButton.Name = "SliderButton"
+			SliderButton.Parent = SliderFrame
+			SliderButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			SliderButton.BackgroundTransparency = 1.000
+			SliderButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+			SliderButton.BorderSizePixel = 0
+			SliderButton.Size = UDim2.new(0, 79, 0, 22)
+			SliderButton.Font = Enum.Font.SourceSans
+			SliderButton.Text = " "
+			SliderButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+			SliderButton.TextSize = 14.000
+
+			SliderInner.Name = "SliderInner"
+			SliderInner.Parent = SliderButton
+			SliderInner.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+			SliderInner.BorderColor3 = Color3.fromRGB(0, 0, 0)
+			SliderInner.BorderSizePixel = 0
+			SliderInner.Size = UDim2.new(0, 0, 0, 22)
+
+			UICorner_3.CornerRadius = UDim.new(0, 4)
+			UICorner_3.Parent = SliderInner
+
+			TextLabel.Parent = Slider
+			TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			TextLabel.BackgroundTransparency = 1.000
+			TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+			TextLabel.BorderSizePixel = 0
+			TextLabel.Position = UDim2.new(0.471615732, 0, 0, 0)
+			TextLabel.Size = UDim2.new(0, 26, 0, 44)
+			TextLabel.Font = Enum.Font.GothamBold
+			TextLabel.Text = "0"
+			TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+			TextLabel.TextScaled = true
+			TextLabel.TextSize = 14.000
+			TextLabel.TextWrapped = true
+
+			title.Name = "title"
+			title.Parent = Slider
+			title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			title.BackgroundTransparency = 1.000
+			title.BorderColor3 = Color3.fromRGB(0, 0, 0)
+			title.BorderSizePixel = 0
+			title.Position = UDim2.new(0.0480349362, 0, 0, 0)
+			title.Size = UDim2.new(0, 71, 0, 44)
+			title.Font = Enum.Font.GothamBold
+			title.Text = text
+			title.TextColor3 = Color3.fromRGB(255, 255, 255)
+			title.TextScaled = true
+			title.TextSize = 14.000
+			title.TextWrapped = true
+			
+			SliderButton.MouseButton1Down:Connect(function()
+				Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 79) * SliderInner.AbsoluteSize.X) + tonumber(minvalue)) or 0
+				pcall(function()
+					callback(Value)
+				end)
+				SliderInner.Size = UDim2.new(0, math.clamp(mouse.X - SliderInner.AbsolutePosition.X, 0,79), 0, 22)
+				moveconnection = mouse.Move:Connect(function()
+					TextLabel.Text = Value
+					Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 79) * SliderInner.AbsoluteSize.X) + tonumber(minvalue))
+					pcall(function()
+						callback(Value)
+						TextLabel.Text = Value
+					end)
+					SliderInner.Size = UDim2.new(0, math.clamp(mouse.X - SliderInner.AbsolutePosition.X, 0, 79), 0, 22)
+				end)
+				releaseconnection = uis.InputEnded:Connect(function(Mouse)
+					if Mouse.UserInputType == Enum.UserInputType.MouseButton1 then
+						Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 79) * SliderInner.AbsoluteSize.X) + tonumber(minvalue))
+						pcall(function()
+							callback(Value)
+						end)
+						SliderInner.Size = UDim2.new(0, math.clamp(mouse.X - SliderInner.AbsolutePosition.X, 0, 79), 0, 22)
+						moveconnection:Disconnect()
+						releaseconnection:Disconnect()
+					end
+				end)
 			end)
 		end
 		return someSets
