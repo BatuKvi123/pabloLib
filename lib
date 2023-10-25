@@ -18,6 +18,7 @@ V0.0.3
 added textbox
 added title
 fixed the frame dupe that everytime you die it will clones the frame
+fixed the tab container s scroll
 --]]
 
 
@@ -88,6 +89,8 @@ function library:Create(text)
 	scrollHolder.Size = UDim2.new(0, 122, 0, 192)
 	scrollHolder.CanvasSize = UDim2.new(0, 0, 0, 0)
 	scrollHolder.ScrollBarThickness = 2
+	scrollHolder["AutomaticCanvasSize"] = Enum.AutomaticSize.Y
+	
 
 	local UIListLayout = Instance.new("UIListLayout")
 	UIListLayout.Parent = scrollHolder
